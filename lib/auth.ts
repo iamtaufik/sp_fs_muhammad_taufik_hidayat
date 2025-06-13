@@ -1,6 +1,4 @@
 import NextAuth, { User } from 'next-auth';
-import GitHub from 'next-auth/providers/github';
-import Google from 'next-auth/providers/google';
 import Credentials from 'next-auth/providers/credentials';
 import { loginSchema } from '@/validations/auth.validation';
 import { prisma } from './prisma';
@@ -10,6 +8,10 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
   pages: {
     newUser: '/register',
     signIn: '/login',
+  },
+  session: {
+    strategy: 'jwt',
+    maxAge: 60 * 60 * 24, // 1 day
   },
   providers: [
     Credentials({
@@ -42,10 +44,23 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
         }
 
         return {
-          id: user.id, // Example ID, replace with actual user ID logic
+          id: user.id,
           email: user.email,
-        } as User; // Ensure the returned object matches the User type
+        } as User;
       },
     }),
   ],
+  callbacks: {
+    authorized(params) {
+      const isLoggedIn = !!params.auth?.user;
+      const protectedRoutes = ['/dashboard', '/projects'];
+      const currentPath = params.request.nextUrl.pathname;
+
+      if (protectedRoutes.includes(currentPath) && !isLoggedIn) {
+        return Response.redirect(new URL('/login', params.request.nextUrl));
+      }
+
+      return true;
+    },
+  },
 });
