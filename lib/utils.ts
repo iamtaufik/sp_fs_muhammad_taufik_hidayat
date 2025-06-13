@@ -1,6 +1,16 @@
-import { clsx, type ClassValue } from "clsx"
-import { twMerge } from "tailwind-merge"
+import { clsx, type ClassValue } from 'clsx';
+import { twMerge } from 'tailwind-merge';
+import { compare, genSalt, hash } from 'bcrypt-ts';
 
 export function cn(...inputs: ClassValue[]) {
-  return twMerge(clsx(inputs))
+  return twMerge(clsx(inputs));
 }
+
+export const hashPassword = async (password: string): Promise<string> => {
+  const salt = await genSalt(10);
+  return await hash(password, salt);
+};
+
+export const comparePasswords = async (password: string, hashedPassword: string): Promise<boolean> => {
+  return await compare(password, hashedPassword);
+};
