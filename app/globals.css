@@ -178,7 +178,7 @@ body {
     --chart-4: oklch(0.627 0.265 303.9);
     --chart-5: oklch(0.645 0.246 16.439);
   }
-  
+
   * {
     @apply border-border outline-ring/50;
   }

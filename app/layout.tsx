@@ -5,6 +5,7 @@ import AuthProvider from '@/providers/auth-provider';
 import { Suspense } from 'react';
 import { Toaster } from '@/components/ui/sonner';
 import ReactQueryProvider from '@/providers/tanstack-provider';
+import ToolTipProvider from '@/providers/tooltip-provider';
 
 const geistSans = Geist({
   variable: '--font-geist-sans',
@@ -29,14 +30,16 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${geistSans.variable} ${geistMono.variable} dark antialiased`}>
-        <ReactQueryProvider>
-          <Suspense>
-            <AuthProvider>
-              {children}
-              <Toaster position="top-center" richColors />
-            </AuthProvider>
-          </Suspense>
-        </ReactQueryProvider>
+        <ToolTipProvider>
+          <ReactQueryProvider>
+            <Suspense>
+              <AuthProvider>
+                {children}
+                <Toaster position="top-center" richColors />
+              </AuthProvider>
+            </Suspense>
+          </ReactQueryProvider>
+        </ToolTipProvider>
       </body>
     </html>
   );

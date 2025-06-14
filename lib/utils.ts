@@ -6,6 +6,13 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
+export const formatDate = (date: string) => {
+  return new Intl.DateTimeFormat('id-ID', {
+    dateStyle: 'medium',
+    timeStyle: 'short',
+  }).format(new Date(date));
+};
+
 export const hashPassword = async (password: string): Promise<string> => {
   const salt = await genSalt(10);
   return await hash(password, salt);

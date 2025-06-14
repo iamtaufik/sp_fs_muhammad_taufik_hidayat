@@ -45,21 +45,13 @@ export function NavUser({
             <DropdownMenuSeparator />
             <DropdownMenuGroup>
               <DropdownMenuItem>
-                <UserCircleIcon />
-                Account
-              </DropdownMenuItem>
-              <DropdownMenuItem>
-                <CreditCardIcon />
-                Billing
-              </DropdownMenuItem>
-              <DropdownMenuItem>
                 <BellIcon />
                 Notifications
               </DropdownMenuItem>
             </DropdownMenuGroup>
             <DropdownMenuSeparator />
             <DropdownMenuItem>
-              <Button type='button' onClick={() => signOut()} variant="destructive" className='w-full'>
+              <Button type="button" onClick={() => signOut()} variant="destructive" className="w-full">
                 <LogOutIcon />
                 Log out
               </Button>
