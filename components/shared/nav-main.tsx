@@ -10,6 +10,8 @@ import AddProjectDialog from './add-project-dialog';
 import { usePathname } from 'next/navigation';
 import { useProjects } from '@/hooks/use-projects';
 import { useState } from 'react';
+import { keepPreviousData, useQuery } from '@tanstack/react-query';
+import { getProjects } from '@/lib/api';
 
 const items = [
   {
@@ -42,7 +44,13 @@ const items = [
 
 export function NavMain() {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
-  const { projects } = useProjects();
+  // const { projects } = useProjects();
+  const { data, isLoading, error } = useQuery({
+    queryKey: ['projects'],
+    queryFn: () => getProjects(),
+    placeholderData: keepPreviousData,
+  });
+
   const pathname = usePathname();
   const isActive = (url: string) => pathname === url;
   const onDialogOpen = () => {
@@ -82,7 +90,7 @@ export function NavMain() {
                     </CollapsibleTrigger>
                     <CollapsibleContent>
                       <SidebarMenuSub>
-                        {projects.map((subItem) => (
+                        {data?.data.map((subItem) => (
                           <SidebarMenuSubItem key={subItem.name} className="ml-2">
                             <Link href={`/projects/${subItem.id}`}>
                               <SidebarMenuSubButton asChild isActive={isActive(`/projects/${subItem.id}`)}>

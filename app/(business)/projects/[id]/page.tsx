@@ -7,7 +7,7 @@ interface PageProps {
 
 const Page = async ({ params }: PageProps) => {
   const id = (await params).id;
-  return <DetailProject />;
+  return <DetailProject id={id} />;
 };
 
 export default Page;
