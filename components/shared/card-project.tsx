@@ -1,9 +1,7 @@
-import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardFooter } from '@/components/ui/card';
+import { Card, CardContent } from '@/components/ui/card';
 import { cn, formatDate } from '@/lib/utils';
 import Image from 'next/image';
 import React from 'react';
-import { Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from '../ui/dialog';
 import Link from 'next/link';
 
 interface CardProjectProps {
@@ -26,7 +24,6 @@ const CardProject = ({ id, name, image, createdAt, className }: CardProjectProps
           <p className="text-sm text-muted-foreground">{formatDate(createdAt)}</p>
         </CardContent>
       </Link>
-      
     </Card>
   );
 };

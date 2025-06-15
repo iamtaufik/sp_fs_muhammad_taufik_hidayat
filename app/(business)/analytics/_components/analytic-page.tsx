@@ -2,6 +2,7 @@
 
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { ChartConfig, ChartContainer, ChartTooltip, ChartTooltipContent } from '@/components/ui/chart';
+import { Skeleton } from '@/components/ui/skeleton';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { getAnalyticsData } from '@/lib/api';
 import { useQuery } from '@tanstack/react-query';
@@ -23,27 +24,6 @@ const chartConfig = {
   },
 } satisfies ChartConfig;
 
-const chartData = [
-  {
-    project: 'testts',
-    todo: 2,
-    in_progress: 2,
-    done: 2,
-  },
-  {
-    project: 'project 1',
-    todo: 1,
-    in_progress: 0,
-    done: 0,
-  },
-  {
-    project: 'project 23',
-    todo: 1,
-    in_progress: 1,
-    done: 1,
-  },
-];
-
 const AnalyticPage = () => {
   const isMobile = useIsMobile();
   const { data, isLoading } = useQuery({
@@ -57,14 +37,14 @@ const AnalyticPage = () => {
         <CardDescription>This page provides an overview of your analytics data per project.</CardDescription>
       </CardHeader>
       <CardContent className="h-full">
-        {isLoading && <div>Loading...</div>}
+        {isLoading && <AnalyticFallback />}
         {!isLoading && data?.status && data.data.length === 0 && <div className="text-center text-muted-foreground">No analytics data available.</div>}
         {data?.data && (
           <ChartContainer config={chartConfig}>
             {isMobile ? (
               <div className="h-screen">
                 <ResponsiveContainer>
-                  <BarChart data={chartData} layout="vertical" className="">
+                  <BarChart data={data.data} layout="vertical" className="">
                     <XAxis type="number" />
                     <YAxis type="category" dataKey="project" />
                     <ChartTooltip content={<ChartTooltipContent />} />
@@ -92,3 +72,15 @@ const AnalyticPage = () => {
 };
 
 export default AnalyticPage;
+
+const AnalyticFallback = () => {
+  return (
+    <div className="w-full p-4">
+      <div className="flex flex-col space-y-4">
+        <div className="relative h-96 w-full">
+          <Skeleton className="absolute inset-0 h-full w-full rounded-md" />
+        </div>
+      </div>
+    </div>
+  );
+};

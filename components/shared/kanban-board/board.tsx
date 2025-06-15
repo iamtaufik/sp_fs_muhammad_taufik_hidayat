@@ -1,21 +1,14 @@
 'use client';
 
-import { DndContext, closestCenter, DragEndEvent, useDraggable, useDroppable, DragOverlay } from '@dnd-kit/core';
-import { useCallback, useEffect, useState } from 'react';
+import { DndContext, closestCenter, DragEndEvent, DragOverlay } from '@dnd-kit/core';
+import { useEffect, useState } from 'react';
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { cn } from '@/lib/utils';
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { PencilIcon, Plus, Settings, UserPlus } from 'lucide-react';
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
-import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
+import { Plus, Settings } from 'lucide-react';
 import DroppableColumn from './droppable-column';
 import DraggableCard from './draggable-card';
 import TaskCard from './task-card';
-import AddMembershipDialog from './add-membership-dialog';
 import { AddTaskDialog } from './add-task-dialog';
-import { ScrollArea } from '@/components/ui/scroll-area';
 import { $Enums } from '@prisma/client';
 import DetailTaskDialog from './detail-task-dialog';
 import { useMutation } from '@tanstack/react-query';
@@ -64,12 +57,6 @@ export default function Board({ project }: BoardProps) {
   const [isDialogAddTaskOpen, setIsDialogAddTaskOpen] = useState(false);
   const [selectedStatus, setSelectedStatus] = useState<'TODO' | 'IN_PROGRESS' | 'DONE'>('TODO');
 
-  // const addTask = () => {
-  //   if (!newTask.trim()) return;
-  //   setTasks([...tasks, { id: Date.now(), title: newTask.trim(), status: 'TODO' }]);
-  //   setNewTask('');
-  // };
-
   const mutation = useMutation({
     mutationFn: updateTaskStatus,
     onError: (error) => {
@@ -78,7 +65,6 @@ export default function Board({ project }: BoardProps) {
   });
 
   useEffect(() => {
-    // Update tasks whenever the project tasks change
     setTasks(project.tasks);
   }, [project.tasks]);
 
@@ -118,10 +104,10 @@ export default function Board({ project }: BoardProps) {
       <div className="flex items-center mb-6 justify-between">
         <h1 className="text-3xl font-bold">{project.name}</h1>
         {/* <AddMembershipDialog projectId={project.id} /> */}
-        <Link href={`/projects/${project.id}/settings`} className='flex bg-primary py-2 px-3 rounded-md'>
+        <Link href={`/projects/${project.id}/settings`} className="flex bg-primary py-2 px-3 rounded-md">
           <Settings />
           <span className="ml-2">Settings</span>
-        </Link >
+        </Link>
       </div>
       <DndContext
         id="kanban-board-project"

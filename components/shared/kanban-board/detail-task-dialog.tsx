@@ -6,7 +6,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Textarea } from '@/components/ui/textarea';
-import { deleteProject, deleteTask, getMembershipsByProjectId, getTaskById, updateTask } from '@/lib/api';
+import { deleteTask, getMembershipsByProjectId, getTaskById, updateTask } from '@/lib/api';
 import { UpdateTaskSchema, updateTaskSchema } from '@/validations/task.validation';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { DialogTrigger } from '@radix-ui/react-dialog';

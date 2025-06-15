@@ -1,6 +1,6 @@
 'use client';
 
-import { PlusCircleIcon, type LucideIcon, LayoutDashboardIcon, FolderIcon, BarChartIcon } from 'lucide-react';
+import { PlusCircleIcon, LayoutDashboardIcon, FolderIcon, BarChartIcon } from 'lucide-react';
 
 import { SidebarGroup, SidebarGroupContent, SidebarMenu, SidebarMenuButton, SidebarMenuItem, SidebarMenuSub, SidebarMenuSubButton, SidebarMenuSubItem } from '@/components/ui/sidebar';
 import Link from 'next/link';
