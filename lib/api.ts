@@ -278,7 +278,7 @@ export const deleteTask = async (data: { projectId: string; taskId: string }) =>
   };
 };
 
-export const updateTaskStatus = async (data: { projectId: string; task: UpdateTaskStatusSchema}) => {
+export const updateTaskStatus = async (data: { projectId: string; task: UpdateTaskStatusSchema }) => {
   const response = await fetch(`/api/projects/${data.projectId}/tasks/${data.task.id}/update-status`, {
     method: 'PUT',
     headers: {
@@ -296,5 +296,27 @@ export const updateTaskStatus = async (data: { projectId: string; task: UpdateTa
   return json as {
     status: boolean;
     data: string;
+  };
+};
+
+export const getAnalyticsData = async () => {
+  const response = await fetch(`/api/analytics/tasks`, {
+    method: 'GET',
+  });
+
+  const json = await response.json();
+
+  if (!response.ok) {
+    throw new Error(json.error || 'Failed to fetch analytics data');
+  }
+
+  return json as {
+    status: boolean;
+    data: {
+      project: string;
+      todo: number;
+      in_progress: number;
+      done: number;
+    }[];
   };
 };

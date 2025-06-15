@@ -7,7 +7,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { cn } from '@/lib/utils';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { PencilIcon, Plus, UserPlus } from 'lucide-react';
+import { PencilIcon, Plus, Settings, UserPlus } from 'lucide-react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
 import DroppableColumn from './droppable-column';
@@ -21,6 +21,7 @@ import DetailTaskDialog from './detail-task-dialog';
 import { useMutation } from '@tanstack/react-query';
 import { updateTaskStatus } from '@/lib/api';
 import { toast } from 'sonner';
+import Link from 'next/link';
 
 type Task = {
   id: string;
@@ -71,7 +72,6 @@ export default function Board({ project }: BoardProps) {
 
   const mutation = useMutation({
     mutationFn: updateTaskStatus,
-
     onError: (error) => {
       toast.error('Failed to update task: ', { description: error.message });
     },
@@ -117,7 +117,11 @@ export default function Board({ project }: BoardProps) {
     <div className="p-6 min-h-screen bg-background text-foreground">
       <div className="flex items-center mb-6 justify-between">
         <h1 className="text-3xl font-bold">{project.name}</h1>
-        <AddMembershipDialog projectId={project.id} />
+        {/* <AddMembershipDialog projectId={project.id} /> */}
+        <Link href={`/projects/${project.id}/settings`} className='flex bg-primary py-2 px-3 rounded-md'>
+          <Settings />
+          <span className="ml-2">Settings</span>
+        </Link >
       </div>
       <DndContext
         id="kanban-board-project"

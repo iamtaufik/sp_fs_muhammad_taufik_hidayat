@@ -19,7 +19,7 @@ export const POST = async (req: Request, { params }: { params: Promise<{ id: str
     });
 
     if (!project) {
-      return Response.json({ status: false, error: 'Project not found or unauthorized' }, { status: 404 });
+      return Response.json({ status: false, error: 'You are not authorized to create tasks in this project' }, { status: 401 });
     }
 
     const body = await req.json();

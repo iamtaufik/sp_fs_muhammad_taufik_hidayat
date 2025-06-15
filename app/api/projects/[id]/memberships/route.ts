@@ -12,6 +12,19 @@ export const POST = async (req: Request, { params }: { params: Promise<{ id: str
       return Response.json({ status: false, error: 'Unauthorized' }, { status: 401 });
     }
 
+    const userId = await getUserIdByEmail(session.user.email);
+    if (!userId) {
+      return Response.json({ status: false, error: 'User not found' }, { status: 404 });
+    }
+
+    const project = await prisma.project.findUnique({
+      where: { id, ownerId: userId },
+    });
+
+    if (!project) {
+      return Response.json({ status: false, error: 'You are not authorized to add members to this project' }, { status: 401 });
+    }
+
     const body = await req.json();
 
     const validFields = addUsersToProjectSchema.safeParse(body);

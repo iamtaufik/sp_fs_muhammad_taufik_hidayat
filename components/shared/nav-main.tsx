@@ -8,7 +8,6 @@ import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '../ui/colla
 import { Dialog, DialogTrigger } from '../ui/dialog';
 import AddProjectDialog from './add-project-dialog';
 import { usePathname } from 'next/navigation';
-import { useProjects } from '@/hooks/use-projects';
 import { useState } from 'react';
 import { keepPreviousData, useQuery } from '@tanstack/react-query';
 import { getProjects } from '@/lib/api';
@@ -37,14 +36,13 @@ const items = [
   },
   {
     title: 'Analytics',
-    url: '#',
+    url: '/analytics',
     icon: BarChartIcon,
   },
 ];
 
 export function NavMain() {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
-  // const { projects } = useProjects();
   const { data, isLoading, error } = useQuery({
     queryKey: ['projects'],
     queryFn: () => getProjects(),
@@ -52,7 +50,7 @@ export function NavMain() {
   });
 
   const pathname = usePathname();
-  const isActive = (url: string) => pathname === url;
+  const isActive = (url: string) => pathname.startsWith(url);
   const onDialogOpen = () => {
     setIsDialogOpen(!isDialogOpen);
   };

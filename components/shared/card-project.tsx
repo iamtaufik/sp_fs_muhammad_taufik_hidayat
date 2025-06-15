@@ -11,11 +11,10 @@ interface CardProjectProps {
   name: string;
   image: string;
   createdAt: string;
-  onDelete?: () => void;
   className?: string;
 }
 
-const CardProject = ({ id, name, image, createdAt, className, onDelete }: CardProjectProps) => {
+const CardProject = ({ id, name, image, createdAt, className }: CardProjectProps) => {
   return (
     <Card className={cn('pt-0 overflow-hidden', className)}>
       <Link href={`/projects/${id}`}>
@@ -27,11 +26,7 @@ const CardProject = ({ id, name, image, createdAt, className, onDelete }: CardPr
           <p className="text-sm text-muted-foreground">{formatDate(createdAt)}</p>
         </CardContent>
       </Link>
-      <CardFooter>
-        <Button variant="destructive" className="ml-auto" onClick={onDelete}>
-          Delete Project
-        </Button>
-      </CardFooter>
+      
     </Card>
   );
 };

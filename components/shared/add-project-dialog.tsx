@@ -1,10 +1,8 @@
 'use client';
-import React, { useState } from 'react';
 import { DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from '../ui/dialog';
 import { Input } from '../ui/input';
 import { Button } from '../ui/button';
 import { Label } from '../ui/label';
-import { useProjects } from '@/hooks/use-projects';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { CreateProjectSchema, createProjectSchema } from '@/validations/project.validation';
@@ -17,7 +15,6 @@ interface AddProjectDialogProps {
 }
 
 const AddProjectDialog = ({ onDialogOpen }: AddProjectDialogProps) => {
-  const { addProject } = useProjects();
   const {
     register,
     handleSubmit,
@@ -32,8 +29,7 @@ const AddProjectDialog = ({ onDialogOpen }: AddProjectDialogProps) => {
     mutationFn: createProject,
     onSuccess: (data, variables, context) => {
       toast.success(`Project "${data.data.name}" created successfully!`);
-      addProject(data.data);
-      onDialogOpen(); // Close the dialog after successful creation
+      onDialogOpen();
 
       queryClient.invalidateQueries({
         queryKey: ['projects'],
