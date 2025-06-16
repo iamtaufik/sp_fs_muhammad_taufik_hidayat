@@ -10,11 +10,11 @@ import DraggableCard from './draggable-card';
 import TaskCard from './task-card';
 import { AddTaskDialog } from './add-task-dialog';
 import { $Enums } from '@prisma/client';
-import DetailTaskDialog from './detail-task-dialog';
 import { useMutation } from '@tanstack/react-query';
 import { updateTaskStatus } from '@/lib/api';
 import { toast } from 'sonner';
 import Link from 'next/link';
+import { useTaskModal } from '@/hooks/use-task-modal';
 
 type Task = {
   id: string;
@@ -50,10 +50,9 @@ interface BoardProps {
 }
 
 export default function Board({ project }: BoardProps) {
+  const { onOpen } = useTaskModal();
   const [tasks, setTasks] = useState<Task[]>(project.tasks);
   const [activeTask, setActiveTask] = useState<Task | null>(null);
-  const [selectedTask, setSelectedTask] = useState<Task>({ id: '', title: '', description: '', status: 'TODO' });
-  const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [isDialogAddTaskOpen, setIsDialogAddTaskOpen] = useState(false);
   const [selectedStatus, setSelectedStatus] = useState<'TODO' | 'IN_PROGRESS' | 'DONE'>('TODO');
 
@@ -103,7 +102,6 @@ export default function Board({ project }: BoardProps) {
     <div className="p-6 min-h-screen bg-background text-foreground">
       <div className="flex items-center mb-6 justify-between">
         <h1 className="text-3xl font-bold">{project.name}</h1>
-        {/* <AddMembershipDialog projectId={project.id} /> */}
         <Link href={`/projects/${project.id}/settings`} className="flex bg-primary py-2 px-3 rounded-md">
           <Settings />
           <span className="ml-2">Settings</span>
@@ -135,8 +133,10 @@ export default function Board({ project }: BoardProps) {
                           <TaskCard
                             task={task}
                             onClick={() => {
-                              setSelectedTask(task);
-                              setIsDialogOpen(true);
+                              onOpen({
+                                taskId: task.id,
+                                projectId: project.id,
+                              });
                             }}
                           />
                         </DraggableCard>
@@ -165,8 +165,6 @@ export default function Board({ project }: BoardProps) {
 
         <DragOverlay>{activeTask ? <TaskCard task={activeTask} /> : null}</DragOverlay>
       </DndContext>
-
-      <DetailTaskDialog projectId={project.id} task={selectedTask} isOpen={isDialogOpen} onOpenChange={setIsDialogOpen} />
     </div>
   );
 }

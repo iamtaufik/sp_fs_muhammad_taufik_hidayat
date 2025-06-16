@@ -2,14 +2,16 @@ import { create } from 'zustand';
 
 interface ModalState {
   taskId?: string;
+  projectId?: string;
   isOpen: boolean;
-  onOpen: (taskId?: string) => void;
+  onOpen: ({ taskId, projectId }: { taskId: string; projectId: string }) => void;
   onClose: () => void;
 }
 
 export const useTaskModal = create<ModalState>((set) => ({
   taskId: undefined,
+  projectId: undefined,
   isOpen: false,
-  onOpen: (taskId?: string) => set({ taskId, isOpen: true }),
-  onClose: () => set({ taskId: undefined, isOpen: false }),
+  onOpen: ({ projectId, taskId }) => set({ taskId, projectId, isOpen: true }),
+  onClose: () => set({ taskId: undefined, projectId: undefined, isOpen: false }),
 }));
