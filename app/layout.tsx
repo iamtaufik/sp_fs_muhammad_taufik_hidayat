@@ -6,6 +6,7 @@ import { Suspense } from 'react';
 import { Toaster } from '@/components/ui/sonner';
 import ReactQueryProvider from '@/providers/tanstack-provider';
 import ToolTipProvider from '@/providers/tooltip-provider';
+import ModalTaskProvider from '@/providers/modal-task-provider';
 
 const geistSans = Geist({
   variable: '--font-geist-sans',
@@ -36,6 +37,7 @@ export default function RootLayout({
               <AuthProvider>
                 {children}
                 <Toaster position="top-center" richColors />
+                <ModalTaskProvider />
               </AuthProvider>
             </Suspense>
           </ReactQueryProvider>
